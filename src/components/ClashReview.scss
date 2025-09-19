@@ -1,0 +1,21 @@
+/*---------------------------------------------------------------------------------------------
+* Copyright (c) Bentley Systems, Incorporated. All rights reserved.
+* See LICENSE.md in the project root for license terms and full copyright notice.
+*--------------------------------------------------------------------------------------------*/
+.sample-options {
+  padding: 8px;
+  box-sizing: border-box;
+
+  &-toggle {
+    margin-top: 10px;
+  }
+
+  &-button {
+    margin-top: 16px;
+    width: 100%;
+  }
+}
+
+.instructions {
+  margin-bottom: 16px;
+}
