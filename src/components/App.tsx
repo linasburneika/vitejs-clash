@@ -32,6 +32,7 @@ import { ClashRunsWidgetProvider } from "./ClashRunsWidget";
 import { ClashSuppressionRulesWidgetProvider } from "./ClashSuppressionRulesWidget";
 import { ClashTestsWidgetProvider } from "./ClashTestsWidget";
 import { SettingsWidgetProvider } from "./SettingsWidget";
+import { ThemeProvider } from "@itwin/itwinui-react";
 
 interface AppProps {
   iTwinId: string;
@@ -69,23 +70,25 @@ export function App({ iTwinId, iModelId, changesetId }: AppProps) {
   }, []);
 
   return (
-    <Viewer
-      iTwinId={iTwinId}
-      iModelId={iModelId}
-      changeSetId={changesetId}
-      authClient={authClient}
-      viewCreatorOptions={viewCreatorOptions}
-      enablePerformanceMonitors={true} // see description in the README (https://www.npmjs.com/package/@itwin/web-viewer-react)
-      onIModelAppInit={onIModelAppInit}
-      mapLayerOptions={{
-        BingMaps: {
-          key: "key",
-          value: import.meta.env.IMJS_BING_MAPS_KEY ?? "",
-        },
-      }}
-      uiProviders={uiProviders}
-      selectionStorage={selectionStorage}
-    />
+    <ThemeProvider theme="os" style={{ height: "100%" }}>
+      <Viewer
+        iTwinId={iTwinId}
+        iModelId={iModelId}
+        changeSetId={changesetId}
+        authClient={authClient}
+        viewCreatorOptions={viewCreatorOptions}
+        enablePerformanceMonitors={true} // see description in the README (https://www.npmjs.com/package/@itwin/web-viewer-react)
+        onIModelAppInit={onIModelAppInit}
+        mapLayerOptions={{
+          BingMaps: {
+            key: "key",
+            value: import.meta.env.IMJS_BING_MAPS_KEY ?? "",
+          },
+        }}
+        uiProviders={uiProviders}
+        selectionStorage={selectionStorage}
+      />
+    </ThemeProvider>
   );
 }
 
