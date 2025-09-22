@@ -44,38 +44,17 @@ const createAuthClient = (): AuthorizationContext => {
     responseType: "code",
     authority: import.meta.env.IMJS_AUTH_AUTHORITY,
   });
+  client.getAccessToken = async () => Promise.resolve("Basic eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpVHdpbklkIjoiZmU1YTA2YzUtY2U3NC00OWM1LTgyZTMtM2ViMjBmNWRjMTEzIiwiaWQiOiIyZGUwZWZmZi1lZmVkLTQzYWEtYWUwNC0zMmVlYWU2MDFkMDUiLCJleHAiOjE3OTAxMDIwMjl9.igZQS6XTHD_ep_yC9R1VxdC30V8rPKkstH89sjTrpbA");
   return {
     client,
-    state: AuthorizationState.Pending,
+    state: AuthorizationState.Authorized,
   };
 };
 
 export function AuthorizationProvider(props: PropsWithChildren<unknown>) {
-  const [contextValue, setContextValue] = useState<AuthorizationContext>(() =>
+  const [contextValue] = useState<AuthorizationContext>(() =>
     createAuthClient()
   );
-  const [token, setToken] = useState<string | undefined>();
-
-  useEffect(() => {
-    fetch("https://connect-itwinjscodesandbox.bentley.com/api/userToken").then(async (response) => {
-      if (!response.ok) {
-        throw new Error(`Failed to fetch token: ${response.status} ${response.statusText}`);
-      }
-      return response.json();
-    }).then((data) => {
-      setContextValue((prev) => ({
-        ...prev,
-        state: AuthorizationState.Authorized,
-      }));
-
-      setToken(data._jwt)
-    }).catch(() => {
-      // Handle token fetch error silently or use proper error reporting
-      setToken(undefined);
-    });
-  }, []);
-
-  contextValue.client.getAccessToken = async () => Promise.resolve(`bearer ${token}`);
 
   return (
     <authorizationContext.Provider value={contextValue}>
